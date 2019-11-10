@@ -7,6 +7,9 @@ public class PlayerController : MonoBehaviour
 {
     public float speed = 5f;
     public float jumpPower = 1f;
+    public KeyCode jump;
+    public KeyCode left;
+    public KeyCode right;
 
     private Rigidbody2D player;
     private BoxCollider2D collider2d;
@@ -27,10 +30,9 @@ public class PlayerController : MonoBehaviour
 
     private void handleVerticalMovement()
     {
-        if(Input.GetKey(KeyCode.W) && isGrounded())
+        if(Input.GetKey(jump) && isGrounded())
         {
             player.AddForce(new Vector3(0f, 350f * jumpPower));
-           
         }
     }
 
@@ -42,11 +44,11 @@ public class PlayerController : MonoBehaviour
     private void handleHorizontalMovement()
     {
         Vector3 force = new Vector3(0f, 0f, 0f);
-        if (Input.GetKey(KeyCode.A))
+        if (Input.GetKey(left))
         {
             force.x -= speed;
         }
-        if (Input.GetKey(KeyCode.D))
+        if (Input.GetKey(right))
         {
             force.x += speed;
         }
