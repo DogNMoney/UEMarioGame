@@ -7,8 +7,10 @@ public class PlayerController : MonoBehaviour
 {
     public float speed = 5f;
     public float jumpPower = 1f;
+
     private Rigidbody2D player;
     private BoxCollider2D collider2d;
+    private const float AIR_SPEED_MULTIPLIER = 0.75f;
     // Start is called before the first frame update
     void Start()
     {
@@ -48,7 +50,10 @@ public class PlayerController : MonoBehaviour
         {
             force.x += speed;
         }
-
+        if (!isGrounded())
+        {
+            force *= AIR_SPEED_MULTIPLIER;
+        }
         force *= Time.deltaTime;
         player.transform.Translate(force);
     }
