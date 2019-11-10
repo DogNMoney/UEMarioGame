@@ -124,6 +124,7 @@ GameObject:
   - component: {fileID: 18419370}
   - component: {fileID: 18419372}
   - component: {fileID: 18419369}
+  - component: {fileID: 18419373}
   m_Layer: 0
   m_Name: TSTBlock
   m_TagString: Untagged
@@ -240,6 +241,20 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 2, y: 2}
   m_EdgeRadius: 0
+--- !u!114 &18419373
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 18419368}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 68b30d8064af29c45b04c2c5c9f83e16, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  speed: 5
+  jumpPower: 1
 --- !u!1 &200066899
 GameObject:
   m_ObjectHideFlags: 0
