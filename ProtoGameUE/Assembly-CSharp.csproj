@@ -60,10 +60,12 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\Scripts\EnemyMov.cs" />
     <Compile Include="Assets\Scripts\Fade.cs" />
     <Compile Include="Assets\Scripts\MenuMan.cs" />
     <Compile Include="Assets\Scripts\PlayerController.cs" />
     <Compile Include="Assets\Scripts\Timer.cs" />
+    <None Include="Assets\ProjectInfos.txt" />
     <Reference Include="Unity.TextMeshPro.Editor">
       <HintPath>C:/UnityProjects/UEMarioGame/ProtoGameUE/Library/ScriptAssemblies/Unity.TextMeshPro.Editor.dll</HintPath>
     </Reference>
