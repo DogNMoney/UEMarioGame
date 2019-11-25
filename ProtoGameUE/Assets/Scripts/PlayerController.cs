@@ -30,15 +30,10 @@ public class PlayerController : MonoBehaviour
 
     private void handleVerticalMovement()
     {
-        if(Input.GetKey(jump) && isGrounded())
+        if(Input.GetKey(jump) && Utils.isGrounded(player))
         {
-            player.AddForce(new Vector3(0f, 350f * jumpPower));
+            player.AddForce(new Vector3(0f, Utils.DEFAULT_JUMP_HEIGHT * jumpPower));
         }
-    }
-
-    private bool isGrounded()
-    {
-        return player.velocity.y > -0.01f && player.velocity.y < 0.01f;
     }
 
     private void handleHorizontalMovement()
@@ -52,7 +47,7 @@ public class PlayerController : MonoBehaviour
         {
             force.x += speed;
         }
-        if (!isGrounded())
+        if (!Utils.isGrounded(player))
         {
             force *= AIR_SPEED_MULTIPLIER;
         }
