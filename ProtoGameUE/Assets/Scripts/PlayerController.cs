@@ -7,13 +7,18 @@ public class PlayerController : MonoBehaviour
 {
     public float speed = 5f;
     public float jumpPower = 1f;
+    public long shootDelay = 120;
     public KeyCode jump;
     public KeyCode left;
     public KeyCode right;
+    public KeyCode shoot;
+    public GameObject currentBullet;
 
+    private bool isRight = true;
     private Rigidbody2D player;
     private BoxCollider2D collider2d;
     private const float AIR_SPEED_MULTIPLIER = 0.75f;
+    private long lastShoot = 0;
     // Start is called before the first frame update
     void Start()
     {
@@ -26,6 +31,19 @@ public class PlayerController : MonoBehaviour
     {
         handleHorizontalMovement();
         handleVerticalMovement();
+        handleShooting();
+    }
+
+    private void handleShooting()
+    {
+        long diff = DateTimeOffset.Now.ToUnixTimeMilliseconds() - lastShoot;
+        Debug.Log("Diff " + diff + " > " + shootDelay);
+        if (Input.GetKey(shoot) && diff > shootDelay)
+        {
+            lastShoot = DateTimeOffset.Now.ToUnixTimeMilliseconds();
+            GameObject bullet = Instantiate(currentBullet, player.position, Quaternion.identity);
+            bullet.GetComponent<Bullet>().shoot(isRight);
+        }
     }
 
     private void handleVerticalMovement()
@@ -41,10 +59,12 @@ public class PlayerController : MonoBehaviour
         Vector3 force = new Vector3(0f, 0f, 0f);
         if (Input.GetKey(left))
         {
+            isRight = false;
             force.x -= speed;
         }
         if (Input.GetKey(right))
         {
+            isRight = true;
             force.x += speed;
         }
         if (!Utils.isGrounded(player))
