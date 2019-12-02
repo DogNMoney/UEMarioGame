@@ -255,9 +255,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 5
   jumpPower: 1
+  shootDelay: 120
   jump: 119
   left: 97
   right: 100
+  shoot: 32
+  currentBullet: {fileID: 8914037747424302198, guid: f16e535d43d406a4a92562fd73948dbe,
+    type: 3}
 --- !u!114 &97515943
 MonoBehaviour:
   m_ObjectHideFlags: 0
