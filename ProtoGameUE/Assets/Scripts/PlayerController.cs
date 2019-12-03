@@ -19,11 +19,16 @@ public class PlayerController : MonoBehaviour
     private BoxCollider2D collider2d;
     private const float AIR_SPEED_MULTIPLIER = 0.75f;
     private long lastShoot = 0;
+    Transform playerTrans;
+    Vector3 currRot;
+    bool direction ;
     // Start is called before the first frame update
     void Start()
     {
         player = GetComponent<Rigidbody2D>();
         collider2d = GetComponent<BoxCollider2D>();
+        playerTrans = this.transform;
+      
     }
 
     // Update is called once per frame
@@ -32,12 +37,13 @@ public class PlayerController : MonoBehaviour
         handleHorizontalMovement();
         handleVerticalMovement();
         handleShooting();
+        
     }
 
     private void handleShooting()
     {
         long diff = DateTimeOffset.Now.ToUnixTimeMilliseconds() - lastShoot;
-        Debug.Log("Diff " + diff + " > " + shootDelay);
+        //Debug.Log("Diff " + diff + " > " + shootDelay);
         if (Input.GetKey(shoot) && diff > shootDelay)
         {
             lastShoot = DateTimeOffset.Now.ToUnixTimeMilliseconds();
@@ -56,16 +62,27 @@ public class PlayerController : MonoBehaviour
 
     private void handleHorizontalMovement()
     {
+        
         Vector3 force = new Vector3(0f, 0f, 0f);
         if (Input.GetKey(left))
         {
+            Vector3 currRot = playerTrans.eulerAngles;
+            currRot.y = 180;
+            playerTrans.eulerAngles = currRot;
+
             isRight = false;
-            force.x -= speed;
+            force.x += speed;
+           
+
         }
         if (Input.GetKey(right))
         {
+            Vector3 currRot = playerTrans.eulerAngles;
+            currRot.y = 0;
+            playerTrans.eulerAngles = currRot;
             isRight = true;
             force.x += speed;
+           
         }
         if (!Utils.isGrounded(player))
         {
@@ -74,4 +91,5 @@ public class PlayerController : MonoBehaviour
         force *= Time.deltaTime;
         player.transform.Translate(force);
     }
+   
 }
