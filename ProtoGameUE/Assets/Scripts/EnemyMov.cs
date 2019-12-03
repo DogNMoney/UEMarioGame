@@ -32,11 +32,26 @@ public class EnemyMov : MonoBehaviour
             currRot.y += 180;
             enemyTrans.eulerAngles = currRot;
         }
-        Debug.Log(isGrounded);
+       // Debug.Log(isGrounded);
         Vector2 enemyVel = enemyBody.velocity;
         enemyVel.x = -enemyTrans.right.x * speed;
         enemyBody.velocity = enemyVel;
 
     }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.gameObject.tag == "Player")
+        {
+            Destroy(gameObject);
+        }
+        if (collision.gameObject.tag == "Bullet")
+        {
+            Debug.Log("Hit");
+            Destroy(gameObject);
+            Destroy(GameObject.FindWithTag("Bullet"));
+        }
     }
+    
+}
 
