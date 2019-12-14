@@ -38,20 +38,6 @@ public class EnemyMov : MonoBehaviour
         enemyBody.velocity = enemyVel;
 
     }
-
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
-        if (collision.gameObject.tag == "Player")
-        {
-            Destroy(gameObject);
-        }
-        if (collision.gameObject.tag == "Bullet")
-        {
-            Debug.Log("Hit");
-            Destroy(gameObject);
-            Destroy(GameObject.FindWithTag("Bullet"));
-        }
-    }
     
 }
 
