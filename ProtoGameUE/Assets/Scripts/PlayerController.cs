@@ -40,6 +40,21 @@ public class PlayerController : MonoBehaviour
         
     }
 
+
+    void OnCollisionEnter2D(Collision2D collision)
+    {
+        Debug.Log("collision with " + collision.gameObject.tag);
+        if(collision.gameObject.tag == "Enemy")
+        {
+            die();
+        }
+    }
+
+    private void die()
+    {
+        Destroy(gameObject);
+    }
+
     private void handleShooting()
     {
         long diff = DateTimeOffset.Now.ToUnixTimeMilliseconds() - lastShoot;
