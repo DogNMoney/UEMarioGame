@@ -13,12 +13,15 @@ public class PlayerController : MonoBehaviour
     public KeyCode right;
     public KeyCode shoot;
     public GameObject currentBullet;
-
+    public int fAmmo;
+    public int fHp;
     private bool isRight = true;
     private Rigidbody2D player;
     private BoxCollider2D collider2d;
     private const float AIR_SPEED_MULTIPLIER = 0.75f;
     private long lastShoot = 0;
+    private Animator animator;
+    private Vector3 force = new Vector3(0f, 0f, 0f);
     Transform playerTrans;
     Vector3 currRot;
     bool direction ;
@@ -28,16 +31,21 @@ public class PlayerController : MonoBehaviour
         player = GetComponent<Rigidbody2D>();
         collider2d = GetComponent<BoxCollider2D>();
         playerTrans = this.transform;
+        globalVar.Ammo = fAmmo;
+        globalVar.Hp = fHp;
+        animator = GetComponent<Animator>();
       
     }
 
     // Update is called once per frame
     void FixedUpdate()
     {
+  
         handleHorizontalMovement();
         handleVerticalMovement();
         handleShooting();
-        
+
+        animator.SetBool("isMoving", force.x != 0 );
     }
 
 
@@ -48,22 +56,27 @@ public class PlayerController : MonoBehaviour
         {
             die();
         }
+        
     }
 
     private void die()
     {
+        globalVar.Hp--;
         Destroy(gameObject);
+        
     }
 
     private void handleShooting()
     {
         long diff = DateTimeOffset.Now.ToUnixTimeMilliseconds() - lastShoot;
         //Debug.Log("Diff " + diff + " > " + shootDelay);
-        if (Input.GetKey(shoot) && diff > shootDelay)
+        if (Input.GetKey(shoot) && diff > shootDelay && globalVar.Ammo >0)
         {
+            globalVar.Ammo--;
             lastShoot = DateTimeOffset.Now.ToUnixTimeMilliseconds();
             GameObject bullet = Instantiate(currentBullet, player.position, Quaternion.identity);
             bullet.GetComponent<Bullet>().shoot(isRight);
+            Debug.Log(globalVar.Ammo);
         }
     }
 
@@ -78,7 +91,7 @@ public class PlayerController : MonoBehaviour
     private void handleHorizontalMovement()
     {
         
-        Vector3 force = new Vector3(0f, 0f, 0f);
+      
         if (Input.GetKey(left))
         {
             Vector3 currRot = playerTrans.eulerAngles;
@@ -105,6 +118,19 @@ public class PlayerController : MonoBehaviour
         }
         force *= Time.deltaTime;
         player.transform.Translate(force);
+    }
+
+    public void OnTriggerEnter2D(Collider2D collision)
+    {
+          if (collision.gameObject.tag == "Ammo")
+            {
+             handleAmmoPickup();
+            Destroy(collision.gameObject);
+            }
+    }
+    private void  handleAmmoPickup()
+    {
+        globalVar.Ammo += 3;
     }
    
 }
