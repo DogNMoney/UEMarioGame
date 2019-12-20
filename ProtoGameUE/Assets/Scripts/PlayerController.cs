@@ -8,10 +8,10 @@ public class PlayerController : MonoBehaviour
     public float speed = 5f;
     public float jumpPower = 1f;
     public long shootDelay = 120;
-    public KeyCode jump;
-    public KeyCode left;
-    public KeyCode right;
-    public KeyCode shoot;
+    private KeyCode jump;
+    private KeyCode left;
+    private KeyCode right;
+    private KeyCode shoot;
     public GameObject currentBullet;
     public int fAmmo;
     public int fHp;
@@ -28,7 +28,11 @@ public class PlayerController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        player = GetComponent<Rigidbody2D>();
+    jump = Settings.up;
+    left = Settings.left;
+    right = Settings.right;
+    shoot = Settings.shoot;
+    player = GetComponent<Rigidbody2D>();
         collider2d = GetComponent<BoxCollider2D>();
         playerTrans = this.transform;
         globalVar.Ammo = fAmmo;
