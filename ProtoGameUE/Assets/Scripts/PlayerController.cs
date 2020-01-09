@@ -128,13 +128,13 @@ public class PlayerController : MonoBehaviour
     {
           if (collision.gameObject.tag == "Ammo")
             {
-             handleAmmoPickup();
+             handleAmmoPickup(collision.gameObject.GetComponent<BulletPack>());
             Destroy(collision.gameObject);
             }
     }
-    private void  handleAmmoPickup()
+    private void  handleAmmoPickup(BulletPack pack)
     {
-        globalVar.Ammo += 3;
+        globalVar.Ammo += pack.bulletCount;
     }
    
 }
