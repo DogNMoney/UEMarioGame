@@ -126,12 +126,23 @@ public class PlayerController : MonoBehaviour
 
     public void OnTriggerEnter2D(Collider2D collision)
     {
-          if (collision.gameObject.tag == "Ammo")
-            {
-             handleAmmoPickup(collision.gameObject.GetComponent<BulletPack>());
+        if (collision.gameObject.tag == "Ammo")
+        {
+          handleAmmoPickup(collision.gameObject.GetComponent<BulletPack>());
+          Destroy(collision.gameObject);
+        }
+        if(collision.gameObject.tag == "coin")
+        {
+            handleCoinPickup();
             Destroy(collision.gameObject);
-            }
+        }
     }
+
+    private void handleCoinPickup()
+    {
+        globalVar.Score += 1;
+    }
+
     private void  handleAmmoPickup(BulletPack pack)
     {
         globalVar.Ammo += pack.bulletCount;
