@@ -15,7 +15,7 @@ public class MenuMan : MonoBehaviour
 
     public void nGame()
     {
-        SceneManager.LoadScene("TestLvl_Bartek");
+        SceneManager.LoadScene("TestLvl");
 
     }
 }

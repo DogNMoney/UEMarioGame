@@ -50,6 +50,7 @@ public class PlayerController : MonoBehaviour
         handleShooting();
 
         animator.SetBool("isMoving", force.x != 0 );
+    
     }
 
 
@@ -118,7 +119,14 @@ public class PlayerController : MonoBehaviour
         }
         if (!Utils.isGrounded(player))
         {
+            animator.SetTrigger("takeOf");
             force *= AIR_SPEED_MULTIPLIER;
+            animator.SetBool("isJumping",true);
+           
+        }
+        else
+        {
+            animator.SetBool("isJumping", false);
         }
         force *= Time.deltaTime;
         player.transform.Translate(force);
@@ -126,26 +134,15 @@ public class PlayerController : MonoBehaviour
 
     public void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.tag == "Ammo")
-        {
-          handleAmmoPickup(collision.gameObject.GetComponent<BulletPack>());
-          Destroy(collision.gameObject);
-        }
-        if(collision.gameObject.tag == "coin")
-        {
-            handleCoinPickup();
+          if (collision.gameObject.tag == "Ammo")
+            {
+             handleAmmoPickup();
             Destroy(collision.gameObject);
-        }
+            }
     }
-
-    private void handleCoinPickup()
+    private void  handleAmmoPickup()
     {
-        globalVar.Score += 1;
-    }
-
-    private void  handleAmmoPickup(BulletPack pack)
-    {
-        globalVar.Ammo += pack.bulletCount;
+        globalVar.Ammo += 3;
     }
    
 }
