@@ -8,4 +8,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/MainMenu.unity
     guid: 40ca8fe1b0f0846419a48694b0290a1c
+  - enabled: 1
+    path: Assets/Scenes/TestLvl_Bartek.unity
+    guid: def411e536049774eb02d69de7367152
   m_configObjects: {}
