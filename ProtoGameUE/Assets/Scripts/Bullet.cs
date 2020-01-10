@@ -34,4 +34,10 @@ public class Bullet : MonoBehaviour
     {
         currentSpeed = shootRight ? speed : -speed;
     }
+
+    public void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.gameObject.tag == "Ground")
+            Destroy(gameObject);
+    }
 }

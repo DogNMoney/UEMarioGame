@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PlayerController : MonoBehaviour
 {
@@ -22,6 +23,7 @@ public class PlayerController : MonoBehaviour
     private long lastShoot = 0;
     private Animator animator;
     private Vector3 force = new Vector3(0f, 0f, 0f);
+    private bool reset = false;
     Transform playerTrans;
     Vector3 currRot;
     bool direction ;
@@ -36,6 +38,7 @@ public class PlayerController : MonoBehaviour
         collider2d = GetComponent<BoxCollider2D>();
         playerTrans = this.transform;
         globalVar.Ammo = fAmmo;
+        if(globalVar.Hp == 0 )
         globalVar.Hp = fHp;
         animator = GetComponent<Animator>();
       
@@ -44,13 +47,15 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
-  
+
         handleHorizontalMovement();
         handleVerticalMovement();
         handleShooting();
 
-        animator.SetBool("isMoving", force.x != 0 );
+        animator.SetBool("isMoving", force.x != 0);
+        Debug.Log(globalVar.Hp);
     
+
     }
 
 
@@ -60,15 +65,30 @@ public class PlayerController : MonoBehaviour
         if(collision.gameObject.tag == "Enemy")
         {
             die();
+            
         }
         
     }
 
+   
     private void die()
     {
         globalVar.Hp--;
         Destroy(gameObject);
-        
+        if (globalVar.Hp > 0)
+        {
+            SceneManager.LoadScene("TestLvl_Bartek");
+
+        }
+        else
+        {
+            Debug.Log("Przegrałeś");
+            SceneManager.LoadScene("TestLvl_Bartek");
+            globalVar.Hp = fHp;
+            globalVar.Score = 0;
+
+        }
+
     }
 
     private void handleShooting()
@@ -121,8 +141,8 @@ public class PlayerController : MonoBehaviour
         {
             animator.SetTrigger("takeOf");
             force *= AIR_SPEED_MULTIPLIER;
-            animator.SetBool("isJumping",true);
-           
+            animator.SetBool("isJumping", true);
+
         }
         else
         {
@@ -134,15 +154,26 @@ public class PlayerController : MonoBehaviour
 
     public void OnTriggerEnter2D(Collider2D collision)
     {
-          if (collision.gameObject.tag == "Ammo")
-            {
-             handleAmmoPickup();
+        if (collision.gameObject.tag == "Ammo")
+        {
+          handleAmmoPickup(collision.gameObject.GetComponent<BulletPack>());
+          Destroy(collision.gameObject);
+        }
+        if(collision.gameObject.tag == "coin")
+        {
+            handleCoinPickup();
             Destroy(collision.gameObject);
-            }
+        }
     }
-    private void  handleAmmoPickup()
+
+    private void handleCoinPickup()
     {
-        globalVar.Ammo += 3;
+        globalVar.Score += 1;
+    }
+
+    private void  handleAmmoPickup(BulletPack pack)
+    {
+        globalVar.Ammo += pack.bulletCount;
     }
    
 }
